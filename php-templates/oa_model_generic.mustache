@@ -1,0 +1,104 @@
+class {{classname}}OA
+{
+    {{#vars}}
+    {{#isEnum}}
+    {{#allowableValues}}
+    {{#enumVars}}
+    public const {{enumName}}_{{{name}}} = {{{value}}};
+    {{/enumVars}}
+    {{/allowableValues}}
+    {{/isEnum}}
+    {{/vars}}
+
+    {{#vars}}
+    /**
+      * @var {{{dataType}}}
+      * @OA\Property(
+      *    type="{{{dataType}}}",
+      {{#minLength}}
+      *    minLength={{{minLength}}},
+      {{/minLength}}
+      {{#maxLength}}
+      *    maxLength={{{maxLength}}},
+      {{/maxLength}}
+      {{#exclusiveMinimum}}
+      *    exclusiveMinimum={{{exclusiveMinimum}}},
+      {{/exclusiveMinimum}}
+      {{#exclusiveMaximum}}
+      *    exclusiveMaximum={{{exclusiveMaximum}}},
+      {{/exclusiveMaximum}}
+      {{#minimum}}
+      *    minimum={{{minimum}}},
+      {{/minimum}}
+      {{#maximum}}
+      *    maximum={{{maximum}}},
+      {{/maximum}}
+      {{#minItems}}
+      *    minItems={{{minItems}}},
+      {{/minItems}}
+      {{#maxItems}}
+      *    maxItems={{{maxItems}}},
+      {{/maxItems}}
+      {{#uniqueItems}}
+      *    uniqueItems={{{uniqueItems}}},
+      {{/uniqueItems}}
+      {{#multipleOf}}
+      *    multipleOf={{{multipleOf}}},
+      {{/multipleOf}}
+      {{#pattern}}
+      *    pattern="{{{pattern}}}",
+      {{/pattern}}
+      {{#isReadOnly}}
+      *    readOnly={{{isReadOnly}}},
+      {{/isReadOnly}}
+      {{#isWriteOnly}}
+      *    writeOnly={{{isWriteOnly}}},
+      {{/isWriteOnly}}
+      {{#default}}
+      *    default="{{{default}}}",
+      {{/default}}
+      {{#isNullable}}
+      *    nullable={{{isNullable}}},
+      {{/isNullable}}
+      {{#isDeprecated}}
+      *    deprecated={{{isDeprecated}}},
+      {{/isDeprecated}}
+      {{#isEnum}}
+      {{#allowableValues}}
+      *    enum={ {{#enumVars}}self::{{enumName}}_{{{name}}}{{^-last}},{{/-last}}{{/enumVars}} },
+      {{/allowableValues}}
+      {{/isEnum}}
+      * )
+      */
+    private ${{name}};
+
+    {{/vars}}
+    {{#vars}}
+    /**
+     * @return {{{dataType}}}
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
+     */
+    public function {{getter}}()
+    {
+        return $this->{{name}};
+    }
+
+    /**
+     * @param {{{dataType}}} ${{name}}{{#description}} {{{.}}}{{/description}}{{^description}} {{{name}}}{{/description}}
+     *
+     * @return self
+    {{#deprecated}}
+     * @deprecated
+    {{/deprecated}}
+     */
+    public function {{setter}}(${{name}})
+    {
+        $this->{{name}} = ${{name}};
+
+        return $this;
+    }
+
+    {{/vars}}
+}

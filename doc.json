@@ -1,0 +1,138 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Auth MS",
+        "description": "Auth micro service endpoints",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "\/api\/token": {
+            "post": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Permet d'obtenir un token JWT \u00e0 partir d'indentifiants de connexion",
+                "operationId": "postPasswordCredentials",
+                "requestBody": {
+                    "description": "Cr\u00e9e un nouveau token JWT",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/PasswordCredentials"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "R\u00e9cup\u00e8re le token JWT",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Token"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "\/api\/token\/refresh": {
+            "post": {
+                "tags": [
+                    "Token"
+                ],
+                "summary": "Permet d'obtenir un token JWT \u00e0 partir d'un refresh token",
+                "operationId": "postRefreshCredentials",
+                "requestBody": {
+                    "description": "Cr\u00e9e un nouveau token JWT",
+                    "content": {
+                        "application\/json": {
+                            "schema": {
+                                "$ref": "#\/components\/schemas\/RefreshCredentials"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "R\u00e9cup\u00e8re le token JWT",
+                        "content": {
+                            "application\/json": {
+                                "schema": {
+                                    "$ref": "#\/components\/schemas\/Token"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Token": {
+                "required": ["token"],
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "readOnly": true,
+                        "minLength": 200,
+                        "maxLength": 2000
+                    },
+                    "refresh_token": {
+                        "type": "string",
+                        "writeOnly": true,
+                        "enum": ["refresh_token1", "refresh_token2"]
+                    },
+                    "refresh_token_expiration": {
+                        "type": "integer",
+                        "readOnly": true,
+                        "nullable": true,
+                        "default": "my-default",
+                        "deprecated": true
+                    }
+                },
+                "type": "object"
+            },
+            "PasswordCredentials": {
+                "required": [
+                    "username",
+                    "password"
+                ],
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "RefreshCredentials": {
+                "required": [
+                    "refresh_token"
+                ],
+                "properties": {
+                    "refresh_token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}

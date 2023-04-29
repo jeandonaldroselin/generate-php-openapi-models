@@ -1,0 +1,12 @@
+{
+    "modelPackage": "Model",
+    "apiPackage": "Api",
+    "variableNamingConvention": "snake_case",
+    "files": {
+        "oa_model.mustache": {
+            "templateType": "Model",
+            "destinationFilename": "OA.php",
+            "folder": "lib/Model/OA"
+        }
+    }
+}
