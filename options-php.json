@@ -6,7 +6,7 @@
         "oa_model.mustache": {
             "templateType": "Model",
             "destinationFilename": "OA.php",
-            "folder": "lib/Model/OA"
+            "folder": "lib/Model"
         }
     }
 }

@@ -72,7 +72,6 @@
     "components": {
         "schemas": {
             "Token": {
-                "required": ["token"],
                 "properties": {
                     "token": {
                         "type": "string",

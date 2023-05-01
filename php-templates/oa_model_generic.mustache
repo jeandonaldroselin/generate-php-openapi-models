@@ -1,4 +1,4 @@
-class {{classname}}OA
+class {{classname}}OA implements \JsonSerializable
 {
     {{#vars}}
     {{#isEnum}}
@@ -65,7 +65,7 @@ class {{classname}}OA
       {{/isDeprecated}}
       {{#isEnum}}
       {{#allowableValues}}
-      *    enum={ {{#enumVars}}self::{{enumName}}_{{{name}}}{{^-last}},{{/-last}}{{/enumVars}} },
+      *    enum={ {{#enumVars}}self::{{enumName}}_{{{name}}}{{^-last}}, {{/-last}}{{/enumVars}} },
       {{/allowableValues}}
       {{/isEnum}}
       * )
@@ -101,4 +101,15 @@ class {{classname}}OA
     }
 
     {{/vars}}
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+{{#vars}}
+            "{{name}}" => $this->{{name}},
+{{/vars}}
+        ];
+    }
 }

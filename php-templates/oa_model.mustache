@@ -24,7 +24,7 @@ namespace {{modelPackage}};
 use OpenApi\Annotations as OA;
 
 /**
- * {{classname}} Class Doc Comment
+ * {{classname}} {{description}}
  *
  * @category Class
 {{#description}}
@@ -34,9 +34,23 @@ use OpenApi\Annotations as OA;
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
 {{^isEnum}}
- * @implements \ArrayAccess<string, mixed>
+ * @implements \JsonSerializable
 {{/isEnum}}
- * @OA\Schema(required={ {{#vars}}{{#required}}"{{{name}}}", {{/required}}{{/vars}} })
+ *
+ * @OA\Schema(
+ {{#hasRequired}}
+ *     required={ {{#requiredVars}}"{{{name}}}"{{^-last}}, {{/-last}}{{/requiredVars}} },
+ {{/hasRequired}}
+ {{#additionalProperties}}
+ *     additionalProperties={{additionalProperties}},
+ {{/additionalProperties}}
+ {{#example}},
+ *     example="{{example}}",
+ {{/example}}
+ {{#externalDocs}}
+ *     externalDocs=@OA\ExternalDocumentation({{#externalDocs.description}}description="{{{externalDocs.description}}}"{{/externalDocs.description}}{{#externalDocs.url}},url="{{{externalDocs.url}}}"{{/externalDocs.url}}),
+ {{/externalDocs}}
+* )
  */
 {{#isEnum}}{{>model_enum}}{{/isEnum}}{{^isEnum}}{{>oa_model_generic}}{{/isEnum}}
 {{/model}}{{/models}}

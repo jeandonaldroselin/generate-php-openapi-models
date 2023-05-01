@@ -38,6 +38,8 @@ namespace App\Controller;
 
 use Nelmio\ApiDocBundle\Annotation\Model;
 use OpenAPI\Client\Model\TodoOA;
+use OpenAPI\Client\Api\TodoApi;
+use OpenAPI\Client\Configuration;
 use OpenApi\Annotations as OA;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -50,26 +52,36 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TodoController extends AbstractController
 {
     /**
-     * I fetch one todo using
+     * Get one todo using todo api client
      * 
      * @OA\Response(
      *     response=200,
      *     description="Get one todo item",
-     *     @Model(type=Todo::class)
+     *     @Model(type=TodoOA::class)
      * )
      * 
      * @OA\Tag(name="Todo")
      *
-     * @param Todo $todo
+     * @param string $id
      * @param SerializerInterface $serializer
      * @return JsonResponse
      */
     #[Route('/api/todos/{id}', name: 'getOneTodo', methods: 'GET')]
-    public function getOne(Todo $todo,
+    public function getOne(string $id,
                            SerializerInterface $serializer): JsonResponse
     {
-        $jsonTodo = $serializer->serialize($todo, 'json');
-        return new JsonResponse($jsonTodo, JsonResponse::HTTP_OK, ['accept' => 'json'], true);
+        // forward the request to the todo api client
+        $apiInstance = new TodoApi(
+            null,
+            (new Configuration())->setHost(
+                // Replace "app.todo_api_base_url" by your parameter representing your api to call
+                $this->getParameter('app.todo_api_base_url')
+            )
+        );
+        return new JsonResponse(
+            $apiInstance->getgetOneTodo($id)->__toString(),
+            JsonResponse::HTTP_OK, ['accept' => 'json'], true
+        );
     }
 
 }
@@ -86,6 +98,22 @@ nelmio_api_doc:
         names:
             - { alias: Todo, type: Api\Client\Model\TodoOA }
 ```
+
+
+# 5 - Ressources
+
+As things never come out of nowhere, I was inspired by his resources to develop this template to generate php models that can be used by PHP API gateways : 
+
+-> https://medium.com/xmglobal/including-external-openapi-models-in-your-own-openapi-definition-6c4c6507fe84
+
+-> https://openapi-generator.tech/docs/templating/#models
+
+-> https://zircote.github.io/swagger-php/reference/annotations.html#schema
+
+-> https://symfony.com/bundles/NelmioApiDocBundle/current/alternative_names.html
+
+-> https://github.com/OpenAPITools/openapi-generator/blob/master/modules/openapi-generator/src/main/resources/php/model_generic.mustache
+
 
 ---------
 
