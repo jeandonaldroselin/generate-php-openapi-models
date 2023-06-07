@@ -2,6 +2,7 @@
     "modelPackage": "Model",
     "apiPackage": "Api",
     "variableNamingConvention": "snake_case",
+    "removeOperationIdPrefix": true,
     "files": {
         "oa_model.mustache": {
             "templateType": "Model",
